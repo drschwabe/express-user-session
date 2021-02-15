@@ -1,7 +1,7 @@
 {
-  "name": "express-memory-user-session",
+  "name": "priority-express-session",
   "version": "0.0.1",
-  "description": "Simple memory session tek; wrapper/convenience library around express-session",
+  "description": "Simple session tek; wrapper/convenience library around express-session and defaulting to memorystore",
   "main": "lib.js",
   "dependencies": {
     "express-session": "^1.17.1",

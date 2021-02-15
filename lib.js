@@ -17,11 +17,10 @@ memorySession.destroy = (req, callback) => {
   req.session.destroy(callback)
 }
 
-memorySession.init = (state, app) => {
-  if(state.memorySession && state.memorySession.initialized) return
+memorySession.init = (app, options) => {
   //Default options :
   var sess = {
-    name : 'session-memory',
+    name : 'priority-session',
     secret: 'apple pie',
     resave: false, //< refreshes the cookie each time req obj modified
     saveUninitialized : false, //< do not save sessions that do not login
@@ -32,10 +31,8 @@ memorySession.init = (state, app) => {
   }
 
   //if some options were pre-supplied we accommodate merging them here:
-  if(state.memorySession) {
-    sess = _.extend( sess, state.memorySession )
-  } else {
-    state.memorySession = { initialized : true }
+  if(options) {
+    sess = _.extend( sess, options )
   }
   if(!sess.store) {
     store : new MemoryStore({
@@ -47,8 +44,6 @@ memorySession.init = (state, app) => {
 
   //get a timestamp from when this module was required (presumably when the server starts)
   startupTimestamp = Date.now()
-
-  state.memorySession.initialized = true
 }
 
 memorySession.serve = app => {
