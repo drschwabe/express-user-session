@@ -1,0 +1,11 @@
+{
+  "name": "express-memory-user-session",
+  "version": "0.0.1",
+  "description": "Simple memory session tek; wrapper/convenience library around express-session",
+  "main": "lib.js",
+  "dependencies": {
+    "express-session": "^1.17.1",
+    "memorystore": "^1.6.4",
+    "underscore": "^1.12.0"
+  }
+}
