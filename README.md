@@ -39,7 +39,7 @@ req.session.user = {
 ```
 Now you can set/change values on `req.session.user` (following the same behavior as in [express-session#reqsession] ) and they will persist throughout your application until said session expires... 
 
-the session by default will expire in 48 hours unless deleted manually.  You can delete it by having your user request the route `/user-session/destroy` or by calling `.destroy(req)` manually. 
+the session by default will expire in 48 hours unless deleted manually or overwritten (see below).  You can delete it by having your user request the route `/user-session/destroy` or by calling `.destroy(req)`. 
 
 #### options
 
@@ -52,7 +52,7 @@ userSession.init(app, {
   saveUninitialized : false, //< do not save sessions that do not login
   storeCheckPeriod : 120000, // In 2 minutes expired sessions will be purged from memory.
   cookie: {
-    maxAge : 172800 //< 48 hours 
+    maxAge : 60000 * 2880  //< 48 hours 
   }
 }) 
 ```

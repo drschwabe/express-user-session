@@ -23,7 +23,7 @@ userSession.init = (app, options) => {
     saveUninitialized : false, //< do not save sessions that do not login
     storeCheckPeriod : 120000, // In 2 minutes expired sessions will be purged from memory.
     cookie: {
-      maxAge : 60000 //< 1 minute cookie!
+      maxAge : 60000 * 2880  //< 1 minute cookie!
     }
   }
 
