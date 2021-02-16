@@ -4,12 +4,9 @@ const _ = require('underscore')
 
 const memorySession = {}
 
-let startupTimestamp
-
 memorySession.start = (req) => {
-  if(!startupTimestamp) return console.warn('startupTimestamp undefined , did you run memorySession.init() ? ')
   req.session.user = {
-    _id: startupTimestamp + '_' + _.uniqueId()
+    _id: Date.now() + '_' + _.uniqueId()
   }
 }
 
@@ -35,25 +32,22 @@ memorySession.init = (app, options) => {
     sess = _.extend( sess, options )
   }
   if(!sess.store) {
-    store : new MemoryStore({
+    sess.store = new MemoryStore({
       checkPeriod: sess.storeCheckPeriod  // In 2 minutes expired sessions will be purged from memory.
     })
   }
 
   app.use(session(sess))
-
-  //get a timestamp from when this module was required (presumably when the server starts)
-  startupTimestamp = Date.now()
 }
 
 memorySession.serve = app => {
-  app.post('/memory-user-session/start', (req, res) => {
+  app.post('/priority-express-session/start', (req, res) => {
     console.log('start a session!')
     memorySession.start(req)
     res.send({ok:true})
   })
 
-  app.post('/memory-user-session/destroy', (req, res) => {
+  app.post('/priority-express-session/destroy', (req, res) => {
     console.log('destroy this session!')
     memorySession.destroy(req, () => {
       res.send({ok: true})
