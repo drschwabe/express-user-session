@@ -2,19 +2,19 @@ const session = require('express-session')
 const MemoryStore = require('memorystore')(session)
 const _ = require('underscore')
 
-const memorySession = {}
+const userSession = {}
 
-memorySession.start = (req) => {
+userSession.start = (req) => {
   req.session.user = {
     _id: Date.now() + '_' + _.uniqueId()
   }
 }
 
-memorySession.destroy = (req, callback) => {
+userSession.destroy = (req, callback) => {
   req.session.destroy(callback)
 }
 
-memorySession.init = (app, options) => {
+userSession.init = (app, options) => {
   //Default options :
   var sess = {
     name : 'priority-session',
@@ -40,19 +40,19 @@ memorySession.init = (app, options) => {
   app.use(session(sess))
 }
 
-memorySession.serve = app => {
-  app.post('/priority-express-session/start', (req, res) => {
+userSession.serve = app => {
+  app.post('/user-session/start', (req, res) => {
     console.log('start a session!')
-    memorySession.start(req)
+    userSession.start(req)
     res.send({ok:true})
   })
 
-  app.post('/priority-express-session/destroy', (req, res) => {
+  app.post('/user-session/destroy', (req, res) => {
     console.log('destroy this session!')
-    memorySession.destroy(req, () => {
+    userSession.destroy(req, () => {
       res.send({ok: true})
     })
   })
 }
 
-module.exports = memorySession
+module.exports = userSession

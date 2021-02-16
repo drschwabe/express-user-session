@@ -1,5 +1,5 @@
 {
-  "name": "priority-express-session",
+  "name": "express-user-session",
   "version": "0.0.1",
   "description": "Simple session tek; wrapper/convenience library around express-session and defaulting to memorystore",
   "main": "lib.js",

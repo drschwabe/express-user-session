@@ -1,50 +1,51 @@
-## Priority Express Session
+## Express User Session
 
-Simple memory session tek; wrapper/convenience library around [express-session] and defaulting to [memorystore]
+Simple session technique; wrapper/convenience library around [express-session] and defaulting to [memorystore] for the purpose of quickly getting a `.user` object on `req.session`
 
 
 ### install/usage/API
 
 ```bash
-npm install priority-express-session
+npm install express-user-session
 ```
 
 ```js
 const express = require('express')
 const app = express() 
-const prioritySession = require('priority-express-session') 
-prioritySession.init(app, options) 
+const userSession = require('express-user-session') 
+userSession.init(app, options) 
 
 // Quick way: 
-prioritySession.serve(app)
+userSession.serve(app)
 
-// Or do the manual way; within an Express route call: 
-prioritySession.start(req) 
-prioritySession.destroy(req) 
+// Or do the manual way; ie- within your existing Express routes: 
+userSession.start(req)
+// ex: app.post('/logout', (req, res) => ... 
+userSession.destroy(req) 
 ```
 `.serve()` is a convenience function that extends your Express app object with 2 POST routes:
 
 ```
-/priority-session/start 
-/priority-session/destroy 
+/user-session/start 
+/user-session/destroy 
 ```
 
-So for example when your user hits the `/priority-session/start` it will call `prioritySession.start()` and establish an object on req.session called `user` with a unique id as follows: 
+So for example when your user hits the `/user-session/start` it will call `userSession.start()` and establish an object on `req.session` called `user` with a unique id as follows: 
 
 ```js
 req.session.user = {
   _id : Date.now() + _.uniqueId()
 }
 ```
-The session will expire in 48 hours unless deleted explicitly.  You can delete it by having your user call `/priority-session/destroy`
+Now you can set/change values on `req.session.user` (following the same behavior as in [express-session#reqsession] ) and they will persist throughout your application until said session expires... 
 
-Alternatively you can handle your routing manually and just call just call `.start(req)` and `.destroy(req)` programmatically where `req` is the req parameter of a typical Express route.  
+the session by default will expire in 48 hours unless deleted manually.  You can delete it by having your user request the route `/user-session/destroy` or by calling `.destroy(req)` manually. 
 
 #### options
 
 You may supply any or all of the following options to overwrite these corresponding defaults:  
-```
-prioritySession.init(app, {
+```js
+userSession.init(app, {
   name : 'session-memory',
   secret: 'apple pie',
   resave: false, //< refreshes the cookie each time req obj modified
@@ -58,7 +59,7 @@ prioritySession.init(app, {
 
 #### protecting routes
 
-If you want to use Priority Express Session to protect routes; you can use this canonical example from Express convention to check for presence of a `req.session.user` redirecting to login page if not already created. 
+If you want to use Express User Session to protect routes you can use this canonical example to check for presence of a `req.session.user` redirecting to your login page if not already created. 
 
 ```js
 const ensureLoggedIn = (req, res, next) => {
@@ -73,10 +74,11 @@ let protectedRoutes = [
 app.get(protectedRoutes, ensureLoggedIn)
 
 ```
-The above example assumes the aforementioned `prioritySession.start()` is only called upon successful login.  You can call `prioritySession.destroy()` when the user logs out ie- after clicking "Logout" button trigger a POST request to your server code which in turn runs said `.destroy()` on that request.
+The above example assumes the aforementioned `start()` is only called upon successful login.  You can call `destroy()` when the user logs out ie- after clicking "Logout" button trigger a POST request to your server code which in turn runs said `.destroy()` on that request; subsequent attempts to visit `/dashboard` or `/my-profile` will then redirect to the `/` root page where your theoretical login form is served. 
 
 
 MIT
 
 [express-session]:https://github.com/expressjs/session
 [memorystore]: https://github.com/roccomuso/memorystore
+[express-session#reqsession]:https://github.com/expressjs/session#reqsession
