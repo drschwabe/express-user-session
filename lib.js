@@ -1,6 +1,7 @@
 const session = require('express-session')
 const MemoryStore = require('memorystore')(session)
 const _ = require('underscore')
+const cryptoRandomString = require('crypto-random-string')
 
 const userSession = {}
 
@@ -18,7 +19,7 @@ userSession.init = (app, options) => {
   //Default options :
   var sess = {
     name : 'priority-session',
-    secret: 'apple pie',
+    secret: cryptoRandomString({length: 32 }),
     resave: false, //< refreshes the cookie each time req obj modified
     saveUninitialized : false, //< do not save sessions that do not login
     storeCheckPeriod : 120000, // In 2 minutes expired sessions will be purged from memory.
