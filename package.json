@@ -1,7 +1,7 @@
 {
   "name": "express-user-session",
   "version": "0.0.1",
-  "description": "Simple session tek; wrapper/convenience library around express-session and defaulting to memorystore",
+  "description": "Simple session technique; wrapper/convenience library around [express-session] and defaulting to [memorystore] for the purpose of a basic 'user' session",
   "main": "lib.js",
   "dependencies": {
     "express-session": "^1.17.1",

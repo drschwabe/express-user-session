@@ -1,6 +1,6 @@
 ## Express User Session
 
-Simple session technique; wrapper/convenience library around [express-session] and defaulting to [memorystore] for the purpose of quickly getting a `.user` object on `req.session`
+Simple session technique; wrapper/convenience library around [express-session] and defaulting to [memorystore] for the purpose of a basic 'user' session
 
 
 ### install/usage/API
