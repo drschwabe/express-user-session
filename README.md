@@ -46,8 +46,8 @@ the session by default will expire in 48 hours unless deleted manually or overwr
 You may supply any or all of the following options to overwrite these corresponding defaults:  
 ```js
 userSession.init(app, {
-  name : 'session-memory',
-  secret: 'apple pie',
+  name : 'express-user-session',
+  secret: cryptoRandomString({length: 32 }),
   resave: false, //< refreshes the cookie each time req obj modified
   saveUninitialized : false, //< do not save sessions that do not login
   storeCheckPeriod : 120000, // In 2 minutes expired sessions will be purged from memory.

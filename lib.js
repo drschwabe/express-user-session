@@ -18,7 +18,7 @@ userSession.destroy = (req, callback) => {
 userSession.init = (app, options) => {
   //Default options :
   var sess = {
-    name : 'priority-session',
+    name : 'express-user-session',
     secret: cryptoRandomString({length: 32 }),
     resave: false, //< refreshes the cookie each time req obj modified
     saveUninitialized : false, //< do not save sessions that do not login
