@@ -1,11 +1,11 @@
 {
   "name": "express-user-session",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Simple session technique; wrapper/convenience library around [express-session] and defaulting to [memorystore] for the purpose of a basic 'user' session",
   "main": "lib.js",
   "dependencies": {
     "crypto-random-string": "3.3.1*",
-    "express-session": "1.17.*",
+    "express-session": "1.18.*",
     "memorystore": "1.6.*",
     "underscore": "1.12.1*"
   }
